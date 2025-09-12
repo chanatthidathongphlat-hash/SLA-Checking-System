@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>เข้าสู่ระบบผู้ชำระเงินแล้ว</title>
+  <style>
+    
+    body {
+      margin: 0;
+      font-family: Tahoma, sans-serif;
+      background-color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+    }
+
+    input[type="text"], input[type="password"] {
+      width: 90%;
+      max-width: 400px;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 25px;
+    }
+
+    .btn {
+      background-color: #1c2c53;
+      color: white;
+      padding: 12px 40px;
+      border: none;
+      border-radius: 25px;
+      font-size: 12px;
+      cursor: pointer;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      background-color: #2f3c66;
+    }
+
+    .back-link {
+      display: block;
+      margin-top: 15px;
+      color: #1c2c53;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    .error {
+      color: red;
+      margin-top: 10px;
+    }
+  </style>
+
+  <header>เข้าสู่ระบบรหัสนักศึกษาผู้ที่ชำระเงินแล้ว</header>
+
+  <main>
+    <input type="text" id="username" placeholder="Username………">
+    <input type="password" id="password" placeholder="Password………">
+    
+  
+    <button class="btn" onclick="login()">เข้าสู่ระบบ</button>
+  
+
+    <div class="error" id="errorMsg"></div>
+    <a href="index.html">กลับสู่หน้าหลัก</a>
+  </main>
+
+  <footer></footer>
+
+  <!-- SCRIPT วางก่อน </body> -->
+  <script>
+    function login() {
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value;
+      const errorMsg = document.getElementById("errorMsg");
+
+      if (username !== "adminsla") {
+        errorMsg.textContent = "รหัสนักศึกษาไม่ถูกต้อง";
+        return;
+      }
+
+      if (password.length < 8) {
+        errorMsg.textContent = "รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร";
+        return;
+      }
+
+      if (password !== "sla272567") {
+        errorMsg.textContent = "รหัสผ่านไม่ถูกต้อง";
+        return;
+      }
+
+      // หากผ่านเงื่อนไขให้ redirect ไปหน้าแสดงผล
+      window.location.href = `paid1.html?student_id=${username}`;
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>รหัสนักศึกษาผู้ที่ชำระเงินแล้ว</title>
+  <style>
+    body {
+      font-family: Tahoma, sans-serif;
+      background-color: #ffffff;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    #searchBox {
+      display: block;
+      margin: 0 auto 30px auto;
+      padding: 10px 15px;
+      width: 90%;
+      max-width: 400px;
+      font-size: 16px;
+      border-radius: 25px;
+      border: 1px solid #ccc;
+    }
+
+    .student {
+      margin-bottom: 40px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 20px;
+    }
+
+    .student-number {
+      font-weight: bold;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    .slip-img {
+      max-width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .back {
+      text-align: right;
+      margin-top: 40px;
+    }
+
+    .back a {
+      color: red;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .back button {
+      background: red;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 25px;
+      font-weight: bold;
+      cursor: pointer;  
+    }
+  </style>
+</head>
+<body>
+
+<h1>นักศึกษาที่ชำระเงินแล้ว</h1>
+<input type="text" id="searchBox" placeholder="ค้นหาชื่อนักศึกษา หรือ รหัส" />
+<div id="studentsContainer"></div>
+
+<div class="back">
+  <button onclick="goHome()">กลับสู่หน้าหลัก</button>
+</div>
+
+<script>
+  let paidStudents = JSON.parse(localStorage.getItem("paidStudents")) || [];      
+    
+  function renderPaidList(filter="") {
+    const container = document.getElementById("studentsContainer");
+    container.innerHTML = "";
+
+    let filtered = paidStudents;
+    if(filter){
+      filter = filter.toLowerCase();
+      filtered = paidStudents.filter(s => 
+        s.name.toLowerCase().includes(filter) || s.id.includes(filter)
+      );
+    }
+
+    if (filtered.length === 0) {
+      container.innerHTML = "<p>ยังไม่มีนักศึกษาชำระเงิน</p>";
+      return;
+    }
+
+    filtered.forEach((s) => {
+      const realIndex = paidStudents.indexOf(s);
+      const div = document.createElement("div");
+      div.className = "student";
+      div.innerHTML = `
+        <div class="student-number">${s.name} (${s.id})</div>
+        <img src="${s.slip}" class="slip-img"><br>
+        <button onclick="deletePaidStudent(${realIndex})">ลบ</button>
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  // ✅ ย้ายออกมาอยู่นอก renderPaidList
+  function deletePaidStudent(index){
+    if(confirm("คุณต้องการลบข้อมูลนี้ใช่หรือไม่?")){
+      paidStudents.splice(index, 1);
+      localStorage.setItem("paidStudents", JSON.stringify(paidStudents));
+      renderPaidList(document.getElementById("searchBox").value);
+    }
+  }
+
+  document.getElementById("searchBox").addEventListener("input", function(){
+    renderPaidList(this.value);
+  });
+
+  function goHome() {
+    window.location.href = "index.html";
+  }
+
+  // โหลดครั้งแรก
+  renderPaidList();
+</script>
+</body>
+</html>

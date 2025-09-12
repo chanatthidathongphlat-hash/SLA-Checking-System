@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>รหัสนักศึกษาที่ยังไม่ชำระเงิน</title>
+  <style>
+      
+body {
+  margin: 0;
+  font-family: Tahoma, sans-serif;
+  font-size: 14px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* ย้ายหัวข้อไปด้านบน */
+  min-height: 100vh;
+  padding-top: 40px; /* เว้นระยะจากบน */
+  text-align: center;
+}
+
+h1 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+ul {
+  list-style-type: decimal;
+  padding-left: 50px;
+  text-align: left;
+  max-width: 400px;
+  width: 90%;
+}
+
+li {
+  margin-bottom: 8px;
+}
+
+a.back-link {
+  display: block;
+  margin-top: 20px;
+  color: #1c2c53;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+a.back-link:hover {
+  text-decoration: underline;
+}
+
+    .error {
+      color: red;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+
+  <h1>นักศึกษาที่ยังไม่ชำระเงิน</h1>
+  <ul id="studentList"></ul>
+  <a class="back-link" href="index.html">กลับสู่หน้าหลัก</a>
+
+  <script>
+    function loadUnpaid() {
+      const allStudents = JSON.parse(localStorage.getItem("students")) || [];
+      const paidStudents = JSON.parse(localStorage.getItem("paidStudents")) || [];
+
+      const paidIds = paidStudents.map(s => s.id);
+      const unpaid = allStudents.filter(s => !paidIds.includes(s.id));
+
+      const list = document.getElementById("studentList");
+      list.innerHTML = "";
+
+      if (unpaid.length === 0) {
+        list.innerHTML = "<p>นักศึกษาทุกคนชำระเงินแล้ว</p>";
+        return;
+      }
+
+      unpaid.forEach(s => {
+        const li = document.createElement("li");
+        li.textContent = `${s.id} - ${s.name}`;
+        list.appendChild(li);
+      });
+    }
+    loadUnpaid();
+  </script>
+</body>
+</html>

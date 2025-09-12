@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>เพิ่ม / ลบ รหัสนักศึกษา</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Sarabun', sans-serif;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            padding-top: 60px;
+        }
+
+        h2 {
+            font-size: 16px;
+            margin-bottom: 40px;
+        }
+
+        input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            border: 1px solid #aaa;
+            border-radius: 20px;
+            font-size: 12px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .button-group {
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #2e3a60;
+            color: white;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        button:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+        }
+
+        .back-link {
+            margin-top: 20px;
+            font-size: 12px;
+            display: block;
+        }
+
+        .footer {
+            background-color: #2e3a60;
+            height: 40px;
+            width: 100%;
+        }
+
+        .student-list {
+            margin-top: 20px;
+            font-size: 14px;
+            text-align: left;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 350px;
+        }
+
+        .student-list ul {
+            list-style-type: decimal;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>เพิ่ม / ลบ รหัสนักศึกษา</h2>
+
+        <input type="text" id="studentName" placeholder="กรอกชื่อนักศึกษา………">
+        <input type="text" id="studentId" maxlength="8" placeholder="กรอกรหัสนักศึกษา………">
+
+        <div class="button-group">
+            <button id="addBtn" disabled>เพิ่ม</button>
+            <button id="removeBtn" disabled>ลบ</button>
+        </div>
+
+        <button onclick="showAll()">ดูรายชื่อนักศึกษาทั้งหมด</button>
+
+        <div class="student-list" id="studentList" style="display: none;"></div>
+
+        <div class="back">
+        <a href="index.html" class="back-link">กลับสู่หน้าหลัก</a>
+        </div>
+    </div>
+
+    <div class="footer"></div>
+
+<script>
+const nameInput = document.getElementById('studentName');
+const studentInput = document.getElementById('studentId');
+const addBtn = document.getElementById('addBtn');
+const removeBtn = document.getElementById('removeBtn');
+const studentListDiv = document.getElementById('studentList');
+
+function getStudents() {
+    return JSON.parse(localStorage.getItem('students')) || [];
+}
+
+function saveStudents(students) {
+    localStorage.setItem('students', JSON.stringify(students));
+}
+
+function checkValid() {
+    const nameValid = nameInput.value.trim().length > 0;
+    const idValid = studentInput.value.trim().length === 8;
+    addBtn.disabled = !(nameValid && idValid);
+    removeBtn.disabled = !(nameValid && idValid);
+}
+
+nameInput.addEventListener('input', checkValid);
+studentInput.addEventListener('input', checkValid);
+
+addBtn.addEventListener('click', () => {
+    let students = getStudents();
+    let name = nameInput.value.trim();
+    let id = studentInput.value.trim();
+
+    // ตรวจว่าชื่อซ้ำหรือไม่
+    if (students.some(s => s.name === name)) {
+        alert("ชื่อนี้มีอยู่แล้ว");
+    } else {
+        students.push({ name, id });
+        saveStudents(students);
+        alert("เพิ่มข้อมูลเรียบร้อย");
+    }
+    resetInput();
+    showAll();
+});
+
+removeBtn.addEventListener('click', () => {
+    let students = getStudents();
+    let name = nameInput.value.trim();
+
+    if (students.some(s => s.name === name)) {
+        students = students.filter(s => s.name !== name);
+        saveStudents(students);
+        alert("ลบข้อมูลเรียบร้อย");
+    } else {
+        alert("ไม่พบชื่อนี้");
+    }
+    resetInput();
+    showAll();
+});
+
+function resetInput() {
+    nameInput.value = '';
+    studentInput.value = '';
+    addBtn.disabled = true;
+    removeBtn.disabled = true;
+}
+
+function showAll() {
+    let students = getStudents();
+    if (students.length === 0) {
+        studentListDiv.innerHTML = "<p>ยังไม่มีข้อมูลนักศึกษา</p>";
+    } else {
+        studentListDiv.innerHTML = "<h3>รายชื่อนักศึกษาทั้งหมด:</h3><ol>" +
+            students.map(s => `<li>${s.name} - ${s.id}</li>`).join('') + "</ol>";
+    }
+    studentListDiv.style.display = "block";
+}
+
+showAll();
+</script>
+
+</body>
+</html>

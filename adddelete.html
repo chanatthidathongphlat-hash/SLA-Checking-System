@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>เข้าสู่ระบบเพื่อเพิ่ม/ลบข้อมูล</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Tahoma, sans-serif;
+      font-size: 14px; /* ฟอนต์เท่ากับ paid */
+      background-color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    header {
+      margin-bottom: 20px;
+      font-size: 16px; /* ลดขนาดฟอนต์ */
+      font-weight: bold;
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 400px;
+      padding: 20px;
+    }
+
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 25px;
+      font-size: 14px;
+    }
+
+    .btn {
+      background-color: #1c2c53;
+      color: white;
+      padding: 10px 30px;
+      border: none;
+      border-radius: 25px;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      background-color: #2f3c66;
+    }
+
+    .error {
+      color: red;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    a.back-link {
+      display: block;
+      margin-top: 12px;
+      color: #1c2c53;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    a.back-link:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      background-color: #2b3b66;
+      height: 40px;
+      width: 100%;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <header>เข้าสู่ระบบเพื่อเพิ่ม/ลบข้อมูล</header>
+
+  <main>
+    <input type="text" id="username" placeholder="Username……">
+    <input type="password" id="password" placeholder="Password……">
+    
+    <button class="btn" onclick="login()">เข้าสู่ระบบ</button>
+
+    <div class="error" id="errorMsg"></div>
+
+    <a href="index.html" class="back-link">กลับสู่หน้าหลัก</a>
+  </main>
+
+  <footer></footer>  
+
+  <script>
+    function login() {
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const errorMsg = document.getElementById("errorMsg");
+
+      if (username === "adminchamp" && password === "88888888") {
+          window.location.href = "adddelete1.html";
+      } else {
+          errorMsg.textContent = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
+      }
+    }
+  </script>
+</body>
+</html>

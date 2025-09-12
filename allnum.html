@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายชื่อรหัสนักศึกษา</title>
+    <style>
+        body {
+            font-family: Tahoma, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            align-items: center;
+            background-color: #ffffff;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 40px 0 20px 0;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        ol {
+             list-style-position: inside; /* ตัวเลขอยู่ด้านใน */
+             padding-left: 30;             /* ลบระยะซ้ายเริ่มต้น */
+             max-width: 400px;
+             text-align: left;            /* ให้ชื่อชิดซ้ายตัวเลข */
+             margin: 0 auto 20px auto;    /* จัดกลางลิสต์ */
+
+            }
+        
+        li {
+            margin-left: 10;              /* ชื่อชิดกับตัวเลข */
+            margin-bottom: 8px;
+        }
+
+
+        a.back-link:hover {
+            text-decoration: underline;
+        }
+
+        .centered-container {
+            text-align: center;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="centered-container">
+        <h1>รายชื่อนักศึกษาทั้งหมด</h1>
+        <ol id="allStudentsList"></ol>
+        <a href="index.html" class="back-link">กลับสู่หน้าหลัก</a>
+    </div>
+
+    <script>
+        function loadStudents() {
+            let students = JSON.parse(localStorage.getItem("students")) || [];
+            const list = document.getElementById("allStudentsList");
+
+            if (students.length === 0) {
+                list.innerHTML = "<p>ยังไม่มีรายชื่อนักศึกษาในระบบ</p>";
+                return;
+            }
+
+            list.innerHTML = students.map(s => `<li>${s.id} - ${s.name}</li>`).join("");
+        }
+
+        loadStudents();
+    </script>
+</body>
+</html>

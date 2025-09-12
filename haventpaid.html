@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>เข้าสู่ระบบรหัสนักศึกษาผู้ที่ยังไม่ชำระเงิน</title>
+  <style>
+    body {
+           margin: 0;
+      font-family: Tahoma, sans-serif;
+      font-size: 14px; /* ลดขนาดฟอนต์ */
+      background-color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 16px; /* ลดขนาดฟอนต์ */
+      margin-bottom: 15px;
+    }
+
+    input[type="text"], input[type="password"] {
+      width: 90%;
+      max-width: 400px;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 25px;
+      font-size: 14px;
+    }
+
+    .btn {
+      background-color: #1c2c53;
+      color: white;
+      padding: 10px 30px;
+      border: none;
+      border-radius: 25px;
+      font-size: 14px; /* ลดขนาดฟอนต์ */
+      cursor: pointer;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      background-color: #2f3c66;
+    }
+
+    .error {
+      color: red;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .back-link {
+      display: block;
+      margin-top: 12px;
+      color: #1c2c53;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      background-color: #2b3b66;
+      height: 40px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>เข้าสู่ระบบรหัสนักศึกษาผู้ที่ยังไม่ชำระเงิน</h1>
+  <input type="text" id="username" placeholder="Username………..........">
+  <input type="password" id="password" placeholder="Password………">
+  <button class="btn" onclick="login()">เข้าสู่ระบบ</button>
+
+  <a href="index.html" class="back-link">กลับสู่หน้าหลัก</a>
+
+  <p id="errorMsg" class="error"></p>
+
+  <script>
+    function login() {
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value;
+
+      if (username === "67131888" && password === "12345678") {
+        window.location.href = "haventpaid1.html";
+      } else {
+        document.getElementById("errorMsg").textContent = "username หรือ password ไม่ถูกต้อง";
+      }
+    }
+  </script>
+
+</body>
+</html>

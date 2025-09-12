@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>โปรดชำระเงิน</title>
+  <style>
+    html, body {
+  height: 100%;
+  margin: 30;
+  font-family: Tahoma, sans-serif;
+  font-size: 14px; /* ขนาดฟอนต์เท่ากับ paid */
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 18px; /* ปรับขนาดเท่ากับ paid */
+  font-weight: bold;
+  margin-bottom: 25px;
+}
+
+input[type="text"] {
+  width: 90%;
+  max-width: 400px;
+  padding: 10px;
+  margin: 30px 0;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.file-label {
+  display: inline-block;
+  background-color: #1c2c53;
+  color: white;
+  padding: 10px 30px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 14px;
+  margin: 30px 0;
+  font-weight: bold;
+}
+
+.file-label:hover {
+  background-color: #344574;
+}
+
+#fileName {
+  font-size: 14px;
+  margin-bottom: 18px;
+}
+
+.confirm-btn {
+  background-color: #2e3a60;
+  color: white;
+  padding: 10px 30px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.confirm-btn:hover {
+  background-color: #3e4a80;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: #1c2c53;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: underline;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.link-btn:hover {
+  color: #344574;
+}
+
+.error {
+  color: red;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+footer {
+  background-color: #2b3b66;
+  height: 40px;
+  width: 100%;
+}
+
+  </style>
+</head>
+<body>
+
+<main>
+  <h1>โปรดชำระเงิน</h1>
+
+  <div class="account-info">
+<strong>เลขบัญชี:</strong> 020446776153<br>
+<strong>ธนาคาร:</strong> ออมสิน<br>
+<strong>ชื่อ:</strong> อะมาลีนา วาสา
+  </div>
+
+  <label>ชื่อนักศึกษา:</label>
+  <input type="text" id="studentName" placeholder="ชื่อนักศึกษา">
+
+  <label>รหัสนักศึกษา:</label>
+  <input type="text" id="studentId" placeholder="รหัสนักศึกษา (8 หลัก)">
+
+  <input type="file" id="slipFile" accept="image/*">
+  <div id="fileName">ยังไม่ได้เลือกไฟล์</div>
+
+
+  <!-- ปุ่มยืนยันการชำระเงิน -->
+  <button class="confirm-btn" onclick="validateForm()">ยืนยันการชำระเงิน</button>
+
+  <!-- ปุ่มกลับหน้า index.html -->
+  <button class="link-btn" onclick="goHome()">กลับไปหน้าแรก</button>
+
+  <script>
+    function addPaidStudent(name, id, slip) {
+      let paid = JSON.parse(localStorage.getItem("paidStudents")) || [];
+      paid.push({ name, id, slip });
+      localStorage.setItem("paidStudents", JSON.stringify(paid));
+    }
+
+    // แสดงชื่อไฟล์ที่เลือก
+  document.getElementById("slipFile").addEventListener("change", function() {
+   const fileName = this.files.length > 0 ? this.files[0].name : "ยังไม่ได้เลือกไฟล์";
+   document.getElementById("fileName").textContent = fileName;
+});
+
+    function validateForm() {
+      const name = document.getElementById("studentName").value.trim();
+      const id = document.getElementById("studentId").value.trim();
+      const file = document.getElementById("slipFile").files[0];
+
+      if (!name || !id || !file) {
+        alert("กรอกข้อมูลให้ครบ");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        addPaidStudent(name, id, e.target.result);
+        alert("บันทึกการชำระเงินเรียบร้อย");
+        window.location.href = "index.html";
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function goHome() {
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>
