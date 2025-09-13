@@ -2,7 +2,7 @@
   "name": "sla-checking-system",
   "version": "1.0.0",
   "description": "Backend for SLA Checking System",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js"
