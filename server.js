@@ -1,24 +1,24 @@
 const express = require('express');
 const fs = require('fs');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cors());
+app.use(express.static(path.join(__dirname, 'public'))); // ถ้ามี frontend
 
-// ตรวจสอบและสร้างไฟล์ students.json หากยังไม่มี
+// สร้างไฟล์ JSON ถ้าไม่มี
 if (!fs.existsSync('students.json')) {
     fs.writeFileSync('students.json', JSON.stringify([]));
 }
-
-// ตรวจสอบและสร้างไฟล์ paid.json หากยังไม่มี
 if (!fs.existsSync('paid.json')) {
     fs.writeFileSync('paid.json', JSON.stringify([]));
 }
 
-// API: ดึงรหัสนักศึกษาทั้งหมด
+// API: ดึงรหัสนักศึกษา
 app.get('/students', (req, res) => {
     const students = JSON.parse(fs.readFileSync('students.json'));
     res.json(students);
@@ -70,6 +70,7 @@ app.post('/paid', (req, res) => {
     res.json({ message: 'บันทึกข้อมูลการชำระเงินสำเร็จ' });
 });
 
+// Start server
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
 });
