@@ -1,5 +1,4 @@
-{
-  "name": "sla-checking-system",
+{ "name": "sla-checking-system",
   "version": "1.0.0",
   "description": "Backend for SLA Checking System",
   "main": "server.js",
