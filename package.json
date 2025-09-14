@@ -18,6 +18,11 @@
   "engines": {
     "node": ">=18.0.0"
   },
+  "keywords": [
+    "backend",
+    "express",
+    "sla-checking-system"
+  ],
   "author": "Chanatthida Thongphlat",
   "license": "MIT"
 }
