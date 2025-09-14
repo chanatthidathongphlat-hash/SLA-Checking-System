@@ -8,7 +8,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cors());
-app.use(express.static(path.join(__dirname, 'public'))); // ถ้ามี frontend
+app.use(express.static(__dirname)); // serve ไฟล์ HTML/JS/CSS จาก root
 
 // สร้างไฟล์ JSON ถ้าไม่มี
 if (!fs.existsSync('students.json')) {
@@ -17,6 +17,16 @@ if (!fs.existsSync('students.json')) {
 if (!fs.existsSync('paid.json')) {
     fs.writeFileSync('paid.json', JSON.stringify([]));
 }
+
+// route หน้าแรก
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// route health check
+app.get('/healthz', (req, res) => {
+    res.send('Server is healthy ✅');
+});
 
 // API: ดึงรหัสนักศึกษา
 app.get('/students', (req, res) => {
